@@ -11,6 +11,7 @@
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+        <item name="android:windowBackground">@color/white</item>
         <!-- Customize your theme here. -->
     </style>
 
@@ -22,4 +23,10 @@
     <style name="Theme.PocketBotanist.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.PocketBotanist.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
-</resources>
+    <!-- res/values/themes.xml -->
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Customize your theme here. -->
+        <!-- ... other items -->
+    </style>
+
+    </resources>

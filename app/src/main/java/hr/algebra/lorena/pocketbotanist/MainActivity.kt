@@ -26,10 +26,9 @@ class MainActivity : AppCompatActivity() {
 
         setSupportActionBar(binding.appBarMain.toolbar)
 
-        binding.appBarMain.fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null)
-                .setAnchorView(R.id.fab).show()
+        binding.appBarMain.fab.setOnClickListener {
+            findNavController(R.id.nav_host_fragment_content_main)
+                .navigate(R.id.action_nav_plant_list_to_nav_edit_plant)
         }
         val drawerLayout: DrawerLayout = binding.drawerLayout
         val navView: NavigationView = binding.navView
