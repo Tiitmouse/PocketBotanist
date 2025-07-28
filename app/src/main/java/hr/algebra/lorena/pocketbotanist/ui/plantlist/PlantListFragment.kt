@@ -5,15 +5,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.GridLayoutManager
 import hr.algebra.lorena.pocketbotanist.adapter.PlantAdapter
 import hr.algebra.lorena.pocketbotanist.databinding.FragmentPlantListBinding
 import hr.algebra.lorena.pocketbotanist.model.Plant
+import hr.algebra.lorena.pocketbotanist.repository.PlantRepository
 
 class PlantListFragment : Fragment() {
 
     private var _binding: FragmentPlantListBinding? = null
     private val binding get() = _binding!!
+
+    private lateinit var plantRepository: PlantRepository
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -21,28 +23,34 @@ class PlantListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentPlantListBinding.inflate(inflater, container, false)
+        plantRepository = PlantRepository(requireContext())
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Create dummy data for testing
-        val dummyPlants = listOf(
-            Plant(1, "Monstera Deliciosa", "Monstera deliciosa"),
-            Plant(2, "Snake Plant", "Dracaena trifasciata"),
-            Plant(3, "Pothos", "Epipremnum aureum"),
-            Plant(4, "ZZ Plant", "Zamioculcas zamiifolia"),
-            Plant(5, "Fiddle Leaf Fig", "Ficus lyrata"),
-            Plant(6, "Spider Plant", "Chlorophytum comosum")
-        )
+        // Check if the database is empty and populate it if it is.
+        if (plantRepository.getAllPlants().isEmpty()) {
+            populateDatabase()
+        }
 
-        // Setup the RecyclerView
-        val plantAdapter = PlantAdapter(dummyPlants)
+        // Load plants from the database and display them.
+        val plants = plantRepository.getAllPlants()
+        val plantAdapter = PlantAdapter(plants)
         binding.rvPlants.adapter = plantAdapter
-        // The layout manager is now set in the XML, but you could
-        // also set it here programmatically if you wanted:
-        // binding.rvPlants.layoutManager = GridLayoutManager(context, 2)
+    }
+
+    private fun populateDatabase() {
+        val dummyPlants = listOf(
+            Plant(0, "Monstera Deliciosa", "Monstera deliciosa"),
+            Plant(0, "Snake Plant", "Dracaena trifasciata"),
+            Plant(0, "Pothos", "Epipremnum aureum"),
+            Plant(0, "ZZ Plant", "Zamioculcas zamiifolia"),
+            Plant(0, "Fiddle Leaf Fig", "Ficus lyrata"),
+            Plant(0, "Spider Plant", "Chlorophytum comosum")
+        )
+        dummyPlants.forEach { plantRepository.insertPlant(it) }
     }
 
     override fun onDestroyView() {
