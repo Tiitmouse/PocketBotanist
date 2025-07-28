@@ -4,17 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
-import hr.algebra.lorena.pocketbotanist.databinding.FragmentHomeBinding
+import androidx.recyclerview.widget.GridLayoutManager
+import hr.algebra.lorena.pocketbotanist.adapter.PlantAdapter
+import hr.algebra.lorena.pocketbotanist.databinding.FragmentPlantListBinding
+import hr.algebra.lorena.pocketbotanist.model.Plant
 
 class PlantListFragment : Fragment() {
 
-    private var _binding: FragmentHomeBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
+    private var _binding: FragmentPlantListBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -22,17 +20,29 @@ class PlantListFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val plantViewModel =
-            ViewModelProvider(this).get(PlantListViewModel::class.java)
+        _binding = FragmentPlantListBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
-        _binding = FragmentHomeBinding.inflate(inflater, container, false)
-        val root: View = binding.root
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        val textView: TextView = binding.textHome
-        plantViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
-        }
-        return root
+        // Create dummy data for testing
+        val dummyPlants = listOf(
+            Plant(1, "Monstera Deliciosa", "Monstera deliciosa"),
+            Plant(2, "Snake Plant", "Dracaena trifasciata"),
+            Plant(3, "Pothos", "Epipremnum aureum"),
+            Plant(4, "ZZ Plant", "Zamioculcas zamiifolia"),
+            Plant(5, "Fiddle Leaf Fig", "Ficus lyrata"),
+            Plant(6, "Spider Plant", "Chlorophytum comosum")
+        )
+
+        // Setup the RecyclerView
+        val plantAdapter = PlantAdapter(dummyPlants)
+        binding.rvPlants.adapter = plantAdapter
+        // The layout manager is now set in the XML, but you could
+        // also set it here programmatically if you wanted:
+        // binding.rvPlants.layoutManager = GridLayoutManager(context, 2)
     }
 
     override fun onDestroyView() {
