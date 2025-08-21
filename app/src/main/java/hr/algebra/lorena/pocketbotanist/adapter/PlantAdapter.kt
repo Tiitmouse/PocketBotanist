@@ -3,6 +3,8 @@ package hr.algebra.lorena.pocketbotanist.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.squareup.picasso.Picasso
+import hr.algebra.lorena.pocketbotanist.R
 import hr.algebra.lorena.pocketbotanist.databinding.ItemPlantBinding
 import hr.algebra.lorena.pocketbotanist.model.Plant
 
@@ -13,15 +15,29 @@ class PlantAdapter(
 
     inner class PlantViewHolder(private val binding: ItemPlantBinding) :
         RecyclerView.ViewHolder(binding.root) {
+
         init {
             binding.root.setOnClickListener {
-                onPlantClick(plants[adapterPosition])
+                if (adapterPosition != RecyclerView.NO_POSITION) {
+                    onPlantClick(plants[adapterPosition])
+                }
             }
         }
 
         fun bind(plant: Plant) {
             binding.tvPlantName.text = plant.name
-            // TODO Image loading
+
+            // --- THIS IS THE NEW CODE ---
+            if (!plant.imageUrl.isNullOrEmpty()) {
+                Picasso.get()
+                    .load(plant.imageUrl)
+                    .placeholder(R.drawable.placeholder_image) // Show placeholder while loading
+                    .error(R.drawable.placeholder_image)       // Show placeholder on error
+                    .into(binding.ivPlantImage)
+            } else {
+                // If there's no URL, just show the placeholder
+                binding.ivPlantImage.setImageResource(R.drawable.placeholder_image)
+            }
         }
     }
 
