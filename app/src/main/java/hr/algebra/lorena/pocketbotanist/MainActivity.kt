@@ -1,22 +1,37 @@
 package hr.algebra.lorena.pocketbotanist
 
+import android.graphics.Rect
 import android.os.Bundle
 import android.view.Menu
-import com.google.android.material.snackbar.Snackbar
-import com.google.android.material.navigation.NavigationView
+import android.view.ViewTreeObserver
+import androidx.appcompat.app.AppCompatActivity
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import androidx.drawerlayout.widget.DrawerLayout
-import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.navigation.NavigationView
 import hr.algebra.lorena.pocketbotanist.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
+
+    private val keyboardLayoutListener = object : ViewTreeObserver.OnGlobalLayoutListener {
+        private val r = Rect()
+        override fun onGlobalLayout() {
+            binding.root.getWindowVisibleDisplayFrame(r)
+            val screenHeight = binding.root.rootView.height
+            val keypadHeight = screenHeight - r.bottom
+            if (keypadHeight > screenHeight * 0.15) {
+                // Keyboard is visible
+            } else {
+                // Keyboard is hidden
+            }
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,8 +48,6 @@ class MainActivity : AppCompatActivity() {
         val drawerLayout: DrawerLayout = binding.drawerLayout
         val navView: NavigationView = binding.navView
         val navController = findNavController(R.id.nav_host_fragment_content_main)
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.nav_plant_list
@@ -44,8 +57,17 @@ class MainActivity : AppCompatActivity() {
         navView.setupWithNavController(navController)
     }
 
+    override fun onResume() {
+        super.onResume()
+        binding.root.viewTreeObserver.addOnGlobalLayoutListener(keyboardLayoutListener)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        binding.root.viewTreeObserver.removeOnGlobalLayoutListener(keyboardLayoutListener)
+    }
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.main, menu)
         return true
     }
