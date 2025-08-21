@@ -13,6 +13,10 @@
         <action
             android:id="@+id/action_nav_plant_list_to_nav_edit_plant"
             app:destination="@id/nav_edit_plant" />
+        <!-- ADD THIS ACTION -->
+        <action
+            android:id="@+id/action_nav_plant_list_to_nav_plant_details"
+            app:destination="@id/nav_plant_details" />
     </fragment>
 
     <fragment
@@ -20,5 +24,15 @@
         android:name="hr.algebra.lorena.pocketbotanist.ui.editplant.EditPlantFragment"
         android:label="Add Plant"
         tools:layout="@layout/fragment_edit_plant" />
+
+    <fragment
+        android:id="@+id/nav_plant_details"
+        android:name="hr.algebra.lorena.pocketbotanist.ui.plantdetails.PlantDetailsFragment"
+        android:label="Plant Details"
+        tools:layout="@layout/fragment_plant_details" >
+        <argument
+            android:name="plantId"
+            app:argType="integer" />
+    </fragment>
 
 </navigation>

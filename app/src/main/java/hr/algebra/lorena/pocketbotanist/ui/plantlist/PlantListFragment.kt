@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import hr.algebra.lorena.pocketbotanist.R
 import hr.algebra.lorena.pocketbotanist.adapter.PlantAdapter
 import hr.algebra.lorena.pocketbotanist.databinding.FragmentPlantListBinding
 import hr.algebra.lorena.pocketbotanist.model.Plant
@@ -16,6 +18,8 @@ class PlantListFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var plantRepository: PlantRepository
+    private lateinit var plantAdapter: PlantAdapter
+    private var plants = mutableListOf<Plant>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -30,15 +34,28 @@ class PlantListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Check if the database is empty and populate it if it is.
         if (plantRepository.getAllPlants().isEmpty()) {
             populateDatabase()
         }
 
-        // Load plants from the database and display them.
-        val plants = plantRepository.getAllPlants()
-        val plantAdapter = PlantAdapter(plants)
+        // Pass the click handler to the adapter
+        plantAdapter = PlantAdapter(plants) { clickedPlant ->
+            // This code runs when a plant is clicked
+            val action = PlantListFragmentDirections.actionNavPlantListToNavPlantDetails(clickedPlant.id)
+            findNavController().navigate(action)
+        }
         binding.rvPlants.adapter = plantAdapter
+    }
+
+    override fun onResume() {
+        super.onResume()
+        loadPlants()
+    }
+
+    private fun loadPlants() {
+        plants.clear()
+        plants.addAll(plantRepository.getAllPlants())
+        plantAdapter.notifyDataSetChanged()
     }
 
     private fun populateDatabase() {

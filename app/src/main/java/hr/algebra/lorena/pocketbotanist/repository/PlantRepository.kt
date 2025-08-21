@@ -52,5 +52,30 @@ class PlantRepository(context: Context) {
         return db.insert(TABLE_PLANTS, null, values)
     }
 
+    fun getPlantById(id: Int): Plant? {
+        val db = dbHelper.readableDatabase
+        val cursor = db.query(
+            TABLE_PLANTS,
+            null,
+            "$COLUMN_ID = ?",
+            arrayOf(id.toString()),
+            null, null, null
+        )
+        var plant: Plant? = null
+        if (cursor.moveToFirst()) {
+            plant = Plant(
+                id = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_ID)),
+                name = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_NAME)),
+                latinName = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_LATIN_NAME)),
+                description = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_DESCRIPTION)),
+                wateringFrequencyDays = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_WATERING_FREQUENCY)),
+                sunlightPreference = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_SUNLIGHT_PREFERENCE)),
+                imageUrl = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_IMAGE_URL))
+            )
+        }
+        cursor.close()
+        return plant
+    }
+
     // TODO implement update and delete later.
 }
