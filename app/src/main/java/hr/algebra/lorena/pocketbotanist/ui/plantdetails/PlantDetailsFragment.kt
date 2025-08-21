@@ -1,12 +1,19 @@
 package hr.algebra.lorena.pocketbotanist.ui.plantdetails
 
+import android.app.AlertDialog
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import android.widget.Toast
+import androidx.core.os.bundleOf
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.navArgs
+import androidx.lifecycle.Lifecycle
+import androidx.navigation.fragment.findNavController
+import hr.algebra.lorena.pocketbotanist.MainActivity
+import hr.algebra.lorena.pocketbotanist.R
 import hr.algebra.lorena.pocketbotanist.databinding.FragmentPlantDetailsBinding
+import hr.algebra.lorena.pocketbotanist.model.Plant
 import hr.algebra.lorena.pocketbotanist.repository.PlantRepository
 
 class PlantDetailsFragment : Fragment() {
@@ -15,7 +22,8 @@ class PlantDetailsFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var plantRepository: PlantRepository
-    private val args: PlantDetailsFragmentArgs by navArgs()
+    private var currentPlant: Plant? = null
+    private var plantId: Int = -1
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -28,18 +36,79 @@ class PlantDetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupMenu()
 
-        val plantId = args.plantId
-        val plant = plantRepository.getPlantById(plantId)
+        plantId = arguments?.getInt("plantId") ?: -1
 
-        plant?.let {
-            binding.tvPlantNameDetail.text = it.name
-            binding.tvLatinNameDetail.text = it.latinName
-            binding.tvDescription.text = it.description
-            binding.tvWatering.text = "Water every ${it.wateringFrequencyDays} days"
-            binding.tvSunlight.text = "Prefers ${it.sunlightPreference}"
-            // We will load the image in a later step
+        currentPlant = plantRepository.getPlantById(plantId)
+        currentPlant?.let {
+            bindData(it)
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        currentPlant?.let { setupFab(it) }
+    }
+
+    private fun bindData(plant: Plant) {
+        binding.tvPlantNameDetail.text = plant.name
+        binding.tvLatinNameDetail.text = plant.latinName
+        binding.tvDescription.text = plant.description
+        binding.tvWatering.text = "Water every ${plant.wateringFrequencyDays} days"
+        binding.tvSunlight.text = "Prefers ${plant.sunlightPreference}"
+    }
+
+    private fun setupFab(plant: Plant) {
+        val mainActivity = activity as? MainActivity
+        mainActivity?.showFab()
+        mainActivity?.setFabIcon(R.drawable.edit_foreground)
+        mainActivity?.setFabClickListener {
+            val bundle = bundleOf("plantId" to plant.id, "title" to "Edit Plant")
+            findNavController().navigate(R.id.action_nav_plant_details_to_nav_edit_plant, bundle)
+        }
+    }
+
+    private fun setupMenu() {
+        (requireActivity() as MenuHost).addMenuProvider(object : MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menuInflater.inflate(R.menu.details_menu, menu)
+            }
+
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                return when (menuItem.itemId) {
+                    R.id.action_delete -> {
+                        showDeleteConfirmationDialog()
+                        true
+                    }
+                    else -> false
+                }
+            }
+        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
+    }
+
+    private fun showDeleteConfirmationDialog() {
+        AlertDialog.Builder(requireContext())
+            .setTitle("Delete Plant")
+            .setMessage("Are you sure you want to delete this plant? This action cannot be undone.")
+            .setPositiveButton("Delete") { _, _ ->
+                deletePlant()
+            }
+            .setNegativeButton("Cancel", null)
+            .show()
+    }
+
+    private fun deletePlant() {
+        currentPlant?.let {
+            plantRepository.deletePlant(it.id)
+            Toast.makeText(requireContext(), "Plant deleted", Toast.LENGTH_SHORT).show()
+            findNavController().navigateUp()
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        (activity as? MainActivity)?.hideFab()
     }
 
     override fun onDestroyView() {

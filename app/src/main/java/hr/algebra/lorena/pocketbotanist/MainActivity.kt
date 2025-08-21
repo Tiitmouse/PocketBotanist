@@ -3,8 +3,10 @@ package hr.algebra.lorena.pocketbotanist
 import android.graphics.Rect
 import android.os.Bundle
 import android.view.Menu
+import android.view.View
 import android.view.ViewTreeObserver
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -19,6 +21,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
 
+    // Your existing keyboard listener - we are keeping it.
     private val keyboardLayoutListener = object : ViewTreeObserver.OnGlobalLayoutListener {
         private val r = Rect()
         override fun onGlobalLayout() {
@@ -41,10 +44,6 @@ class MainActivity : AppCompatActivity() {
 
         setSupportActionBar(binding.appBarMain.toolbar)
 
-        binding.appBarMain.fab.setOnClickListener {
-            findNavController(R.id.nav_host_fragment_content_main)
-                .navigate(R.id.action_nav_plant_list_to_nav_edit_plant)
-        }
         val drawerLayout: DrawerLayout = binding.drawerLayout
         val navView: NavigationView = binding.navView
         val navController = findNavController(R.id.nav_host_fragment_content_main)
@@ -55,6 +54,24 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+    }
+
+    fun setFabIcon(resourceId: Int) {
+        binding.appBarMain.fab.setImageDrawable(
+            ContextCompat.getDrawable(this, resourceId)
+        )
+    }
+
+    fun setFabClickListener(listener: View.OnClickListener) {
+        binding.appBarMain.fab.setOnClickListener(listener)
+    }
+
+    fun showFab() {
+        binding.appBarMain.fab.show()
+    }
+
+    fun hideFab() {
+        binding.appBarMain.fab.hide()
     }
 
     override fun onResume() {

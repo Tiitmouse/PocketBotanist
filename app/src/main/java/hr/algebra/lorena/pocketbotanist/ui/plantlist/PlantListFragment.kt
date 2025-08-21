@@ -4,8 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import hr.algebra.lorena.pocketbotanist.MainActivity
 import hr.algebra.lorena.pocketbotanist.R
 import hr.algebra.lorena.pocketbotanist.adapter.PlantAdapter
 import hr.algebra.lorena.pocketbotanist.databinding.FragmentPlantListBinding
@@ -38,11 +40,9 @@ class PlantListFragment : Fragment() {
             populateDatabase()
         }
 
-        // Pass the click handler to the adapter
         plantAdapter = PlantAdapter(plants) { clickedPlant ->
-            // This code runs when a plant is clicked
-            val action = PlantListFragmentDirections.actionNavPlantListToNavPlantDetails(clickedPlant.id)
-            findNavController().navigate(action)
+            val bundle = bundleOf("plantId" to clickedPlant.id)
+            findNavController().navigate(R.id.action_nav_plant_list_to_nav_plant_details, bundle)
         }
         binding.rvPlants.adapter = plantAdapter
     }
@@ -50,6 +50,21 @@ class PlantListFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         loadPlants()
+        setupFab()
+    }
+
+    private fun setupFab() {
+        val mainActivity = activity as? MainActivity
+        mainActivity?.showFab()
+        mainActivity?.setFabIcon(R.drawable.add_foreground)
+        mainActivity?.setFabClickListener {
+            findNavController().navigate(R.id.action_nav_plant_list_to_nav_edit_plant)
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        (activity as? MainActivity)?.hideFab()
     }
 
     private fun loadPlants() {

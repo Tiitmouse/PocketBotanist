@@ -77,5 +77,30 @@ class PlantRepository(context: Context) {
         return plant
     }
 
-    // TODO implement update and delete later.
+    fun updatePlant(plant: Plant): Int {
+        val db = dbHelper.writableDatabase
+        val values = ContentValues().apply {
+            put(COLUMN_NAME, plant.name)
+            put(COLUMN_LATIN_NAME, plant.latinName)
+            put(COLUMN_DESCRIPTION, plant.description)
+            put(COLUMN_WATERING_FREQUENCY, plant.wateringFrequencyDays)
+            put(COLUMN_SUNLIGHT_PREFERENCE, plant.sunlightPreference)
+            put(COLUMN_IMAGE_URL, plant.imageUrl)
+        }
+        return db.update(
+            TABLE_PLANTS,
+            values,
+            "$COLUMN_ID = ?",
+            arrayOf(plant.id.toString())
+        )
+    }
+
+    fun deletePlant(id: Int): Int {
+        val db = dbHelper.writableDatabase
+        return db.delete(
+            TABLE_PLANTS,
+            "$COLUMN_ID = ?",
+            arrayOf(id.toString())
+        )
+    }
 }
