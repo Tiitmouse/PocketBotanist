@@ -2,8 +2,7 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
         <shape android:shape="rectangle">
-            <solid android:color="#E0E0E0" /> <!-- Light gray background -->
-        </shape>
+            <solid android:color="#E0E0E0" /> </shape>
     </item>
     <item
         android:width="48dp"
@@ -11,7 +10,5 @@
         android:gravity="center">
         <bitmap
             android:src="@android:drawable/ic_menu_gallery"
-            android:tint="#BDBDBD" /> <!-- A darker gray for the icon -->
-    </item>
+            android:tint="#BDBDBD" /> </item>
 </layer-list>
-

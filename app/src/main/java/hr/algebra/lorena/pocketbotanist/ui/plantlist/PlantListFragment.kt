@@ -75,8 +75,8 @@ class PlantListFragment : Fragment() {
 
     private fun populateDatabase() {
         val dummyPlants = listOf(
-            Plant(0, "Monstera Deliciosa", "Monstera deliciosa", "A popular houseplant with iconic, split leaves.", 7, "Bright, Indirect Light", null),
-            Plant(0, "Snake Plant", "Dracaena trifasciata", "Extremely hardy and known for its air-purifying qualities.", 14, "Low to Bright Indirect Light", null)
+            Plant(0, "Monstera Deliciosa", "Monstera deliciosa", "A popular houseplant with iconic, split leaves.", 7, "Bright, Indirect Light", "https://images.pexels.com/photos/6597437/pexels-photo-6597437.jpeg"),
+            Plant(0, "Snake Plant", "Dracaena trifasciata", "Extremely hardy and known for its air-purifying qualities.", 14, "Low to Bright Indirect Light", "https://images.pexels.com/photos/2123482/pexels-photo-2123482.jpeg")
         )
         dummyPlants.forEach { plantRepository.insertPlant(it) }
     }

@@ -1,5 +1,6 @@
 package hr.algebra.lorena.pocketbotanist.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -12,6 +13,11 @@ class PlantAdapter(
     private val plants: List<Plant>,
     private val onPlantClick: (Plant) -> Unit
 ) : RecyclerView.Adapter<PlantAdapter.PlantViewHolder>() {
+
+    init {
+        // This enables verbose logging for Picasso.
+        Picasso.get().setLoggingEnabled(true)
+    }
 
     inner class PlantViewHolder(private val binding: ItemPlantBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -26,20 +32,29 @@ class PlantAdapter(
 
         fun bind(plant: Plant) {
             binding.tvPlantName.text = plant.name
+            Log.d("PlantAdapter", "Binding plant: ${plant.name}, Image URL: ${plant.imageUrl}")
 
-            // --- THIS IS THE NEW CODE ---
             if (!plant.imageUrl.isNullOrEmpty()) {
                 Picasso.get()
                     .load(plant.imageUrl)
-                    .placeholder(R.drawable.placeholder_image) // Show placeholder while loading
-                    .error(R.drawable.placeholder_image)       // Show placeholder on error
-                    .into(binding.ivPlantImage)
+                    .fit() // Add this
+                    .centerCrop() // And this
+                    .placeholder(R.drawable.placeholder_simple_color)
+                    .error(R.drawable.placeholder_simple_color)
+                    .into(binding.ivPlantImage, object : com.squareup.picasso.Callback {
+                        override fun onSuccess() {
+                            Log.d("PICASSO_CALLBACK", "SUCCESS loading image for: ${plant.name}")
+                        }
+
+                        override fun onError(e: Exception?) {
+                            Log.e("PICASSO_CALLBACK", "ERROR loading image for: ${plant.name}", e)
+                        }
+                    })
             } else {
-                // If there's no URL, just show the placeholder
-                binding.ivPlantImage.setImageResource(R.drawable.placeholder_image)
+                Log.d("PlantAdapter", "Image URL is empty, setting placeholder directly.")
+                binding.ivPlantImage.setImageResource(R.drawable.placeholder_simple_color)
             }
-        }
-    }
+        }}
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlantViewHolder {
         val binding = ItemPlantBinding.inflate(LayoutInflater.from(parent.context), parent, false)

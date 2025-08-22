@@ -2,6 +2,7 @@ package hr.algebra.lorena.pocketbotanist.ui.plantdetails
 
 import android.app.AlertDialog
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.core.os.bundleOf
@@ -10,6 +11,7 @@ import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
+import com.squareup.picasso.Picasso
 import hr.algebra.lorena.pocketbotanist.MainActivity
 import hr.algebra.lorena.pocketbotanist.R
 import hr.algebra.lorena.pocketbotanist.databinding.FragmentPlantDetailsBinding
@@ -57,6 +59,20 @@ class PlantDetailsFragment : Fragment() {
         binding.tvDescription.text = plant.description
         binding.tvWatering.text = "Water every ${plant.wateringFrequencyDays} days"
         binding.tvSunlight.text = "Prefers ${plant.sunlightPreference}"
+        Log.d("PlantDetailsFragment", "Binding details for plant: ${plant.name}, Image URL: ${plant.imageUrl}")
+
+        if (!plant.imageUrl.isNullOrEmpty()) {
+            Picasso.get()
+                .load(plant.imageUrl)
+                .fit() // Add this
+                .centerCrop() // And this
+                .placeholder(R.drawable.placeholder_simple_color)
+                .error(R.drawable.placeholder_simple_color)
+                .into(binding.ivPlantImageDetail)
+        } else {
+            Log.d("PlantDetailsFragment", "Image URL is empty, setting placeholder directly.")
+            binding.ivPlantImageDetail.setImageResource(R.drawable.placeholder_simple_color)
+        }
     }
 
     private fun setupFab(plant: Plant) {
