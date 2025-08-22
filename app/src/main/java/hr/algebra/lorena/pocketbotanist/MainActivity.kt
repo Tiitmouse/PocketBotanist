@@ -6,6 +6,7 @@ import android.view.Menu
 import android.view.View
 import android.view.ViewTreeObserver
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.findNavController
@@ -15,6 +16,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.navigation.NavigationView
 import hr.algebra.lorena.pocketbotanist.databinding.ActivityMainBinding
+import androidx.preference.PreferenceManager
 
 class MainActivity : AppCompatActivity() {
 
@@ -37,6 +39,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
+        val useDarkMode = sharedPreferences.getBoolean("dark_theme", false)
+        AppCompatDelegate.setDefaultNightMode(
+            if (useDarkMode) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO
+        )
+
         super.onCreate(savedInstanceState)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -49,7 +57,7 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.nav_plant_list
+                R.id.nav_plant_list, R.id.nav_settings
             ), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
