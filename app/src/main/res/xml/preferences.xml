@@ -11,4 +11,20 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory app:title="Notifications">
+
+        <SwitchPreferenceCompat
+            app:key="water_reminder"
+            app:title="Enable Water Reminder"
+            app:summary="Receive reminders to water your plants"
+            app:defaultValue="true" />
+
+        <SwitchPreferenceCompat
+            app:key="sunlight_reminder"
+            app:title="Enable sunlight Reminder"
+            app:summary="Receive reminders check on your plants during the day"
+            app:defaultValue="true" />
+
+    </PreferenceCategory>
+
 </PreferenceScreen>

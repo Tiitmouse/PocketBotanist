@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreferenceCompat
+import hr.algebra.lorena.pocketbotanist.MainActivity
 import hr.algebra.lorena.pocketbotanist.R
 
 class SettingsFragment : PreferenceFragmentCompat() {
@@ -19,5 +20,10 @@ class SettingsFragment : PreferenceFragmentCompat() {
             )
             true
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        (activity as? MainActivity)?.hideFab()
     }
 }
