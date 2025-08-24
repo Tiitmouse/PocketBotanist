@@ -15,7 +15,6 @@ class PlantAdapter(
 ) : RecyclerView.Adapter<PlantAdapter.PlantViewHolder>() {
 
     init {
-        // This enables verbose logging for Picasso.
         Picasso.get().setLoggingEnabled(true)
     }
 
@@ -37,8 +36,8 @@ class PlantAdapter(
             if (!plant.imageUrl.isNullOrEmpty()) {
                 Picasso.get()
                     .load(plant.imageUrl)
-                    .fit() // Add this
-                    .centerCrop() // And this
+                    .fit()
+                    .centerCrop()
                     .placeholder(R.drawable.placeholder_simple_color)
                     .error(R.drawable.placeholder_simple_color)
                     .into(binding.ivPlantImage, object : com.squareup.picasso.Callback {
