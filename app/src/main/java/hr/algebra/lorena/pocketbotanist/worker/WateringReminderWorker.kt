@@ -6,6 +6,7 @@ import androidx.work.WorkerParameters
 import hr.algebra.lorena.pocketbotanist.model.Notification
 import hr.algebra.lorena.pocketbotanist.repository.PlantRepository
 import hr.algebra.lorena.pocketbotanist.utils.NotificationHelper
+import hr.algebra.lorena.pocketbotanist.utils.NotificationScheduler
 
 class WateringReminderWorker(
     appContext: Context,
@@ -36,7 +37,10 @@ class WateringReminderWorker(
                 isRead = false
             )
         )
-        repository.updateLastWateredTimestamp(plant.id, System.currentTimeMillis())
+
+        // Re-schedule the next notification
+        val scheduler = NotificationScheduler(applicationContext)
+        scheduler.scheduleNotifications(plant)
 
         return Result.success()
     }

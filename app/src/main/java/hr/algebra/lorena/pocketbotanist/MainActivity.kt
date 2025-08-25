@@ -7,6 +7,7 @@ import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.ViewTreeObserver
+import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
@@ -73,13 +74,18 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupNotificationBadge() {
         val unreadCount = plantRepository.getUnreadNotificationCount()
-        // Use the direct NavigationView API to get the badge
-        val badge = binding.navView.getOrCreateBadge(R.id.nav_notification_center)
-        if (unreadCount > 0) {
-            badge.isVisible = true
-            badge.number = unreadCount
-        } else {
-            badge.isVisible = false
+        val notificationMenuItem = binding.navView.menu.findItem(R.id.nav_notification_center)
+
+        // Find the TextView within the menu item's action view
+        val badgeTextView = notificationMenuItem?.actionView?.findViewById<TextView>(R.id.notification_badge_text_view)
+
+        badgeTextView?.let {
+            if (unreadCount > 0) {
+                it.text = unreadCount.toString()
+                it.visibility = View.VISIBLE
+            } else {
+                it.visibility = View.GONE
+            }
         }
     }
 
