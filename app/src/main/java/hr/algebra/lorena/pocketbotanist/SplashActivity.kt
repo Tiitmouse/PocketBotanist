@@ -14,14 +14,11 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
 
-        // Find both the icon and the text
         val splashIcon = findViewById<ImageView>(R.id.iv_splash_icon)
         val appNameText = findViewById<TextView>(R.id.tv_app_name)
 
-        // Load the single animation
         val fadeAnimation = AnimationUtils.loadAnimation(this, R.anim.fade)
 
-        // Apply the animation to both views
         splashIcon.startAnimation(fadeAnimation)
         appNameText.startAnimation(fadeAnimation)
 
