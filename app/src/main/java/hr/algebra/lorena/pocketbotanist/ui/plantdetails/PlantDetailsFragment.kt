@@ -17,6 +17,8 @@ import hr.algebra.lorena.pocketbotanist.R
 import hr.algebra.lorena.pocketbotanist.databinding.FragmentPlantDetailsBinding
 import hr.algebra.lorena.pocketbotanist.model.Plant
 import hr.algebra.lorena.pocketbotanist.repository.PlantRepository
+import hr.algebra.lorena.pocketbotanist.utils.NotificationScheduler
+import java.util.concurrent.TimeUnit
 
 class PlantDetailsFragment : Fragment() {
 
@@ -41,10 +43,44 @@ class PlantDetailsFragment : Fragment() {
         setupMenu()
 
         plantId = arguments?.getInt("plantId") ?: -1
+        loadPlant()
+        setupListeners()
+    }
 
+    private fun loadPlant() {
         currentPlant = plantRepository.getPlantById(plantId)
         currentPlant?.let {
             bindData(it)
+        }
+    }
+
+    private fun setupListeners() {
+        binding.btnWaterPlant.setOnClickListener {
+            currentPlant?.let {
+                val now = System.currentTimeMillis()
+                plantRepository.updateLastWateredTimestamp(it.id, now)
+                val scheduler = NotificationScheduler(requireContext())
+                scheduler.scheduleNotifications(it.copy(lastWateredTimestamp = now))
+                Toast.makeText(context, "Watering logged!", Toast.LENGTH_SHORT).show()
+                loadPlant()
+            }
+        }
+
+        binding.swMuteNotifications.setOnCheckedChangeListener { _, isChecked ->
+            currentPlant?.let {
+                val updatedPlant = it.copy(notificationsEnabled = isChecked)
+                plantRepository.updatePlant(updatedPlant)
+                currentPlant = updatedPlant
+
+                val scheduler = NotificationScheduler(requireContext())
+                if (isChecked) {
+                    scheduler.scheduleNotifications(updatedPlant)
+                    Toast.makeText(context, "Notifications enabled", Toast.LENGTH_SHORT).show()
+                } else {
+                    scheduler.cancelNotifications(it.id)
+                    Toast.makeText(context, "Notifications disabled", Toast.LENGTH_SHORT).show()
+                }
+            }
         }
     }
 
@@ -59,6 +95,10 @@ class PlantDetailsFragment : Fragment() {
         binding.tvDescription.text = plant.description
         binding.tvWatering.text = "Water every ${plant.wateringFrequencyDays} days"
         binding.tvSunlight.text = "Prefers ${plant.sunlightPreference}"
+        binding.swMuteNotifications.isChecked = plant.notificationsEnabled
+
+        updateWateringCountdown(plant)
+
         Log.d("PlantDetailsFragment", "Binding details for plant: ${plant.name}, Image URL: ${plant.imageUrl}")
 
         if (!plant.imageUrl.isNullOrEmpty()) {
@@ -72,6 +112,19 @@ class PlantDetailsFragment : Fragment() {
         } else {
             Log.d("PlantDetailsFragment", "Image URL is empty, setting placeholder directly.")
             binding.ivPlantImageDetail.setImageResource(R.drawable.placeholder_simple_color)
+        }
+    }
+
+    private fun updateWateringCountdown(plant: Plant) {
+        val nextWateringTime = plant.lastWateredTimestamp + TimeUnit.DAYS.toMillis(plant.wateringFrequencyDays.toLong())
+        val timeRemaining = nextWateringTime - System.currentTimeMillis()
+
+        if (timeRemaining <= 0) {
+            binding.tvWateringCountdown.text = "Watering is due!"
+        } else {
+            val days = TimeUnit.MILLISECONDS.toDays(timeRemaining)
+            val hours = TimeUnit.MILLISECONDS.toHours(timeRemaining) % 24
+            binding.tvWateringCountdown.text = String.format("Next watering in %d days and %d hours", days, hours)
         }
     }
 
@@ -116,6 +169,8 @@ class PlantDetailsFragment : Fragment() {
 
     private fun deletePlant() {
         currentPlant?.let {
+            val scheduler = NotificationScheduler(requireContext())
+            scheduler.cancelNotifications(it.id)
             plantRepository.deletePlant(it.id)
             Toast.makeText(requireContext(), "Plant deleted", Toast.LENGTH_SHORT).show()
             findNavController().navigateUp()

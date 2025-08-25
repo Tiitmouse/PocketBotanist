@@ -20,11 +20,13 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.preference.PreferenceManager
 import com.google.android.material.navigation.NavigationView
 import hr.algebra.lorena.pocketbotanist.databinding.ActivityMainBinding
+import hr.algebra.lorena.pocketbotanist.repository.PlantRepository
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
+    private lateinit var plantRepository: PlantRepository
     private val requestPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) {}
 
@@ -51,6 +53,7 @@ class MainActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        plantRepository = PlantRepository(this)
 
         setSupportActionBar(binding.appBarMain.toolbar)
 
@@ -59,7 +62,7 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.nav_plant_list, R.id.nav_settings
+                R.id.nav_plant_list, R.id.nav_settings, R.id.nav_notification_center
             ), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
@@ -67,6 +70,19 @@ class MainActivity : AppCompatActivity() {
 
         askForNotificationPermission()
     }
+
+    private fun setupNotificationBadge() {
+        val unreadCount = plantRepository.getUnreadNotificationCount()
+        // Use the direct NavigationView API to get the badge
+        val badge = binding.navView.getOrCreateBadge(R.id.nav_notification_center)
+        if (unreadCount > 0) {
+            badge.isVisible = true
+            badge.number = unreadCount
+        } else {
+            badge.isVisible = false
+        }
+    }
+
 
     private fun askForNotificationPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -99,6 +115,7 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         binding.root.viewTreeObserver.addOnGlobalLayoutListener(keyboardLayoutListener)
+        setupNotificationBadge()
     }
 
     override fun onPause() {
