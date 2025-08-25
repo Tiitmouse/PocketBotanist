@@ -1,10 +1,13 @@
 package hr.algebra.lorena.pocketbotanist
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.graphics.Rect
+import android.os.Build
 import android.os.Bundle
-import android.view.Menu
 import android.view.View
 import android.view.ViewTreeObserver
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
@@ -14,16 +17,17 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import androidx.preference.PreferenceManager
 import com.google.android.material.navigation.NavigationView
 import hr.algebra.lorena.pocketbotanist.databinding.ActivityMainBinding
-import androidx.preference.PreferenceManager
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
+    private val requestPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) {}
 
-    // Your existing keyboard listener - we are keeping it.
     private val keyboardLayoutListener = object : ViewTreeObserver.OnGlobalLayoutListener {
         private val r = Rect()
         override fun onGlobalLayout() {
@@ -31,9 +35,7 @@ class MainActivity : AppCompatActivity() {
             val screenHeight = binding.root.rootView.height
             val keypadHeight = screenHeight - r.bottom
             if (keypadHeight > screenHeight * 0.15) {
-                // Keyboard is visible
             } else {
-                // Keyboard is hidden
             }
         }
     }
@@ -62,6 +64,18 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+
+        askForNotificationPermission()
+    }
+
+    private fun askForNotificationPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) !=
+                PackageManager.PERMISSION_GRANTED
+            ) {
+                requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+            }
+        }
     }
 
     fun setFabIcon(resourceId: Int) {

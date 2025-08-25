@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import hr.algebra.lorena.pocketbotanist.databinding.FragmentEditPlantBinding
 import hr.algebra.lorena.pocketbotanist.model.Plant
 import hr.algebra.lorena.pocketbotanist.repository.PlantRepository
+import hr.algebra.lorena.pocketbotanist.utils.NotificationScheduler
 
 class EditPlantFragment : Fragment() {
 
@@ -71,8 +72,16 @@ class EditPlantFragment : Fragment() {
             return
         }
 
-        val plant = Plant(
-            id = plantId.takeIf { it != -1 } ?: 0,
+        val scheduler = NotificationScheduler(requireContext())
+        val plant = existingPlant?.copy(
+            name = name,
+            latinName = latinName,
+            description = description,
+            wateringFrequencyDays = wateringFreqText.toInt(),
+            sunlightPreference = sunlight,
+            imageUrl = imageUrl.ifEmpty { null }
+        ) ?: Plant(
+            id = 0,
             name = name,
             latinName = latinName,
             description = description,
@@ -83,9 +92,12 @@ class EditPlantFragment : Fragment() {
 
         if (existingPlant != null) {
             plantRepository.updatePlant(plant)
+            scheduler.scheduleNotifications(plant)
             Toast.makeText(context, "Plant updated successfully!", Toast.LENGTH_SHORT).show()
         } else {
-            plantRepository.insertPlant(plant)
+            val newId = plantRepository.insertPlant(plant)
+            val newPlant = plant.copy(id = newId.toInt())
+            scheduler.scheduleNotifications(newPlant)
             Toast.makeText(context, "Plant saved successfully!", Toast.LENGTH_SHORT).show()
         }
 
