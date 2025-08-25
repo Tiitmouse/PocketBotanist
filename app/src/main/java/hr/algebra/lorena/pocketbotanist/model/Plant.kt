@@ -7,5 +7,7 @@ data class Plant(
     val description: String,
     val wateringFrequencyDays: Int,
     val sunlightPreference: String,
-    val imageUrl: String? = null
+    val imageUrl: String? = null,
+    val notificationsEnabled: Boolean = true,
+    val lastWateredTimestamp: Long = System.currentTimeMillis()
 )
