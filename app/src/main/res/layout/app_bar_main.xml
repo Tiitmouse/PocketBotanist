@@ -31,5 +31,4 @@
         android:layout_marginBottom="16dp"
         app:srcCompat="@android:drawable/ic_input_add"
         app:maxImageSize="60dp"/>
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
