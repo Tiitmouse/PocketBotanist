@@ -64,10 +64,10 @@ class PlantDetailsFragment : Fragment() {
         if (!plant.imageUrl.isNullOrEmpty()) {
             Picasso.get()
                 .load(plant.imageUrl)
-                .fit() // Add this
-                .centerCrop() // And this
-                .placeholder(R.drawable.placeholder_simple_color)
-                .error(R.drawable.placeholder_simple_color)
+                .fit()
+                .centerCrop()
+                .placeholder(R.drawable.placeholder_plant)
+                .error(R.drawable.placeholder_plant)
                 .into(binding.ivPlantImageDetail)
         } else {
             Log.d("PlantDetailsFragment", "Image URL is empty, setting placeholder directly.")

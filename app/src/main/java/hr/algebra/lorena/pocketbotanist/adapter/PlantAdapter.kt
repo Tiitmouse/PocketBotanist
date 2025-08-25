@@ -38,8 +38,8 @@ class PlantAdapter(
                     .load(plant.imageUrl)
                     .fit()
                     .centerCrop()
-                    .placeholder(R.drawable.placeholder_simple_color)
-                    .error(R.drawable.placeholder_simple_color)
+                    .placeholder(R.drawable.placeholder_plant)
+                    .error(R.drawable.placeholder_plant)
                     .into(binding.ivPlantImage, object : com.squareup.picasso.Callback {
                         override fun onSuccess() {
                             Log.d("PICASSO_CALLBACK", "SUCCESS loading image for: ${plant.name}")
