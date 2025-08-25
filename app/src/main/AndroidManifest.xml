@@ -13,18 +13,30 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PocketBotanist"
         tools:targetApi="31">
+
         <activity
-            android:name=".MainActivity"
+            android:name=".SplashActivity"
             android:exported="true"
-            android:label="@string/app_name"
-            android:theme="@style/Theme.PocketBotanist.NoActionBar"
-            android:hardwareAccelerated="true">
+            android:theme="@style/Theme.PocketBotanist.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="false"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.PocketBotanist.NoActionBar"
+            android:hardwareAccelerated="true">
+        </activity>
+
+        <provider
+            android:name=".dal.PocketBotanistSqlHelper"
+            android:authorities="hr.algebra.lorena.pocketbotanist.provider"
+            android:exported="false" />
+
     </application>
 
 </manifest>
