@@ -33,7 +33,7 @@
         </activity>
 
         <provider
-            android:name=".dal.PocketBotanistSqlHelper"
+            android:name=".dal.PocketBotanistProvider"
             android:authorities="hr.algebra.lorena.pocketbotanist.provider"
             android:exported="false" />
 
