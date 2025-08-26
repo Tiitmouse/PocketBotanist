@@ -101,7 +101,7 @@ class PlantDetailsFragment : Fragment() {
 
         Log.d("PlantDetailsFragment", "Binding details for plant: ${plant.name}, Image URL: ${plant.imageUrl}")
 
-        if (!plant.imageUrl.isNullOrEmpty()) {
+        if (!plant.imageUrl.isNullOrBlank()) {
             Picasso.get()
                 .load(plant.imageUrl)
                 .fit()
@@ -110,8 +110,7 @@ class PlantDetailsFragment : Fragment() {
                 .error(R.drawable.placeholder_plant)
                 .into(binding.ivPlantImageDetail)
         } else {
-            Log.d("PlantDetailsFragment", "Image URL is empty, setting placeholder directly.")
-            binding.ivPlantImageDetail.setImageResource(R.drawable.placeholder_simple_color)
+            binding.ivPlantImageDetail.setImageResource(R.drawable.placeholder_plant)
         }
     }
 
