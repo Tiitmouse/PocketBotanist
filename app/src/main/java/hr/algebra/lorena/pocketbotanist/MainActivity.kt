@@ -87,7 +87,7 @@ class MainActivity : BaseActivity() {
         }
     }
 
-    private fun setupNotificationBadge() {
+    fun updateNotificationBadge() {
         val unreadCount = plantRepository.getUnreadNotificationCount()
         val notificationMenuItem = binding.navView.menu.findItem(R.id.nav_notification_center)
         val badgeTextView = notificationMenuItem?.actionView?.findViewById<TextView>(R.id.notification_badge_text_view)
@@ -133,7 +133,7 @@ class MainActivity : BaseActivity() {
     override fun onResume() {
         super.onResume()
         binding.root.viewTreeObserver.addOnGlobalLayoutListener(keyboardLayoutListener)
-        setupNotificationBadge()
+        updateNotificationBadge()
     }
 
     override fun onPause() {

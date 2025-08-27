@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import hr.algebra.lorena.pocketbotanist.MainActivity
 import hr.algebra.lorena.pocketbotanist.R
 import hr.algebra.lorena.pocketbotanist.adapter.NotificationAdapter
 import hr.algebra.lorena.pocketbotanist.databinding.FragmentNotificationCenterBinding
@@ -50,6 +51,7 @@ class NotificationCenterFragment : Fragment() {
         if (rowsDeleted > 0) {
             Toast.makeText(context, getString(R.string.cleared_all_notifications_toast), Toast.LENGTH_SHORT).show()
             loadNotifications()
+            (activity as? MainActivity)?.updateNotificationBadge()
         } else {
             Toast.makeText(context, getString(R.string.no_notifications_to_clear_toast), Toast.LENGTH_SHORT).show()
         }
@@ -59,6 +61,7 @@ class NotificationCenterFragment : Fragment() {
         super.onResume()
         plantRepository.markAllNotificationsAsRead()
         loadNotifications()
+        (activity as? MainActivity)?.updateNotificationBadge()
     }
 
     private fun loadNotifications() {
