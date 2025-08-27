@@ -3,6 +3,7 @@ package hr.algebra.lorena.pocketbotanist.worker
 import android.content.Context
 import androidx.work.Worker
 import androidx.work.WorkerParameters
+import hr.algebra.lorena.pocketbotanist.R
 import hr.algebra.lorena.pocketbotanist.model.Notification
 import hr.algebra.lorena.pocketbotanist.repository.PlantRepository
 import hr.algebra.lorena.pocketbotanist.utils.NotificationHelper
@@ -21,7 +22,7 @@ class SunlightReminderWorker(
         val repository = PlantRepository(applicationContext)
         val plant = repository.getPlantById(plantId) ?: return Result.failure()
 
-        val message = "Time to check the sunlight for your ${plant.name}!"
+        val message = applicationContext.getString(R.string.sunlight_notification_message, plant.name)
 
         val notificationHelper = NotificationHelper(applicationContext)
         notificationHelper.createNotificationChannel()

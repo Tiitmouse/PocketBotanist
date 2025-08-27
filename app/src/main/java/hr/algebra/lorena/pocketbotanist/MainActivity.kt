@@ -23,11 +23,12 @@ import com.google.android.material.navigation.NavigationView
 import hr.algebra.lorena.pocketbotanist.databinding.ActivityMainBinding
 import hr.algebra.lorena.pocketbotanist.repository.PlantRepository
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
     private lateinit var plantRepository: PlantRepository
+
     private val requestPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) {}
 
@@ -76,7 +77,6 @@ class MainActivity : AppCompatActivity() {
         val unreadCount = plantRepository.getUnreadNotificationCount()
         val notificationMenuItem = binding.navView.menu.findItem(R.id.nav_notification_center)
 
-        // Find the TextView within the menu item's action view
         val badgeTextView = notificationMenuItem?.actionView?.findViewById<TextView>(R.id.notification_badge_text_view)
 
         badgeTextView?.let {

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">PocketBotanist</string>
+    <string name="navigation_drawer_open">Otvori izbornik za navigaciju</string>
+    <string name="navigation_drawer_close">Zatvori izbornik za navigaciju</string>
+    <string name="nav_header_title">Pocket Botanist</string>
+    <string name="nav_header_subtitle">Vaš digitalni biljni pratilac</string>
+    <string name="nav_header_desc">Navigacijsko zaglavlje</string>
+    <string name="action_settings">Postavke</string>
+
+    <string name="menu_plant_list">Popis biljaka</string>
+    <string name="menu_notification_center">Centar za Obavijesti</string>
+    <string name="add_plant">Dodaj Biljku</string>
+    <string name="edit_plant">Uredi Biljku</string>
+    <string name="plant_details">Detalji Biljke</string>
+
+    <string name="settings_display_category">Prikaz</string>
+    <string name="settings_dark_theme_title">Omogući Tamni Način</string>
+    <string name="settings_dark_theme_summary">Prebacivanje između svijetle i tamne teme</string>
+    <string name="settings_language_title">Jezik</string>
+    <string name="settings_language_summary">Odaberite jezik aplikacije</string>
+    <string name="settings_notifications_category">Obavijesti</string>
+    <string name="settings_water_reminder_title">Omogući Podsjetnik za Zalijevanje</string>
+    <string name="settings_water_reminder_summary">Primajte podsjetnike za zalijevanje vaših biljaka</string>
+    <string name="settings_sunlight_reminder_title">Omogući Podsjetnik za Sunčevu Svjetlost</string>
+    <string name="settings_sunlight_reminder_summary">Primajte podsjetnike za provjeru vaših biljaka</string>
+
+    <string name="plant_name_hint">Ime Biljke</string>
+    <string name="latin_name_hint">Latinsko Ime</string>
+    <string name="description_hint">Opis</string>
+    <string name="watering_frequency_hint">Učestalost Zalijevanja (u danima)</string>
+    <string name="sunlight_preference_hint">Preferencia Sunčeve Svjetlosti (npr. Izravna, Neizravna)</string>
+    <string name="image_url_hint">URL Slike (Opcionalno)</string>
+    <string name="save_plant_button">Spremi Biljku</string>
+    <string name="fill_all_fields_toast">Molimo ispunite sva polja</string>
+    <string name="plant_updated_toast">Biljka uspješno ažurirana!</string>
+    <string name="plant_saved_toast">Biljka uspješno spremljena!</string>
+
+    <string name="description_label">Opis</string>
+    <string name="care_instructions_label">Upute za Njegu</string>
+    <string name="water_every_days_template">Zalijevati svakih %d dana</string>
+    <string name="prefers_sunlight_template">Preferira %s</string>
+    <string name="next_watering_due">Vrijeme je za zalijevanje!</string>
+    <string name="next_watering_countdown_template">Sljedeće zalijevanje za %d dana i %d sati</string>
+    <string name="water_plant_button">Zalio/la sam ovu biljku</string>
+    <string name="enable_notifications_switch">Omogući Obavijesti</string>
+    <string name="watering_logged_toast">Zalijevanje zabilježeno!</string>
+    <string name="notifications_enabled_toast">Obavijesti omogućene</string>
+    <string name="notifications_disabled_toast">Obavijesti onemogućene</string>
+    <string name="delete_plant_dialog_title">Izbriši Biljku</string>
+    <string name="delete_plant_dialog_message">Jeste li sigurni da želite izbrisati ovu biljku? Ova se radnja ne može poništiti.</string>
+    <string name="delete_button">Izbriši</string>
+    <string name="cancel_button">Odustani</string>
+    <string name="plant_deleted_toast">Biljka izbrisana</string>
+
+    <string name="clear_button">Očisti</string>
+    <string name="cleared_all_notifications_toast">Sve obavijesti obrisane</string>
+    <string name="no_notifications_to_clear_toast">Nema obavijesti za brisanje</string>
+    <string name="no_notifications_yet">Još nema obavijesti</string>
+
+    <string name="watering_notification_message">Vrijeme je da zalijete vašu %s!</string>
+    <string name="sunlight_notification_message">Vrijeme je da provjerite sunčevu svjetlost za vašu %s!</string>
+</resources>

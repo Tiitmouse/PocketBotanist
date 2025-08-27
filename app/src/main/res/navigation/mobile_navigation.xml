@@ -21,18 +21,18 @@
     <fragment
         android:id="@+id/nav_settings"
         android:name="hr.algebra.lorena.pocketbotanist.ui.settings.SettingsFragment"
-        android:label="Settings" />
+        android:label="@string/action_settings" />
 
     <fragment
         android:id="@+id/nav_edit_plant"
         android:name="hr.algebra.lorena.pocketbotanist.ui.editplant.EditPlantFragment"
-        android:label="Add Plant"
+        android:label="@string/add_plant"
         tools:layout="@layout/fragment_edit_plant" />
 
     <fragment
         android:id="@+id/nav_plant_details"
         android:name="hr.algebra.lorena.pocketbotanist.ui.plantdetails.PlantDetailsFragment"
-        android:label="Plant Details"
+        android:label="@string/plant_details"
         tools:layout="@layout/fragment_plant_details" >
         <action
             android:id="@+id/action_nav_plant_details_to_nav_edit_plant"
@@ -42,7 +42,7 @@
     <fragment
         android:id="@+id/nav_notification_center"
         android:name="hr.algebra.lorena.pocketbotanist.ui.notification_center.NotificationCenterFragment"
-        android:label="Notification Center"
+        android:label="@string/menu_notification_center"
         tools:layout="@layout/fragment_notification_center" >
         <action
             android:id="@+id/action_nav_notification_center_to_nav_plant_details"

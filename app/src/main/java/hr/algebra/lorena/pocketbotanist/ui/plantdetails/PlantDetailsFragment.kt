@@ -61,7 +61,7 @@ class PlantDetailsFragment : Fragment() {
                 plantRepository.updateLastWateredTimestamp(it.id, now)
                 val scheduler = NotificationScheduler(requireContext())
                 scheduler.scheduleNotifications(it.copy(lastWateredTimestamp = now))
-                Toast.makeText(context, "Watering logged!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, getString(R.string.watering_logged_toast), Toast.LENGTH_SHORT).show()
                 loadPlant()
             }
         }
@@ -75,10 +75,10 @@ class PlantDetailsFragment : Fragment() {
                 val scheduler = NotificationScheduler(requireContext())
                 if (isChecked) {
                     scheduler.scheduleNotifications(updatedPlant)
-                    Toast.makeText(context, "Notifications enabled", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, getString(R.string.notifications_enabled_toast), Toast.LENGTH_SHORT).show()
                 } else {
                     scheduler.cancelNotifications(it.id)
-                    Toast.makeText(context, "Notifications disabled", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, getString(R.string.notifications_disabled_toast), Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -93,8 +93,8 @@ class PlantDetailsFragment : Fragment() {
         binding.tvPlantNameDetail.text = plant.name
         binding.tvLatinNameDetail.text = plant.latinName
         binding.tvDescription.text = plant.description
-        binding.tvWatering.text = "Water every ${plant.wateringFrequencyDays} days"
-        binding.tvSunlight.text = "Prefers ${plant.sunlightPreference}"
+        binding.tvWatering.text = getString(R.string.water_every_days_template, plant.wateringFrequencyDays)
+        binding.tvSunlight.text = getString(R.string.prefers_sunlight_template, plant.sunlightPreference)
         binding.swMuteNotifications.isChecked = plant.notificationsEnabled
 
         updateWateringCountdown(plant)
@@ -119,11 +119,11 @@ class PlantDetailsFragment : Fragment() {
         val timeRemaining = nextWateringTime - System.currentTimeMillis()
 
         if (timeRemaining <= 0) {
-            binding.tvWateringCountdown.text = "Watering is due!"
+            binding.tvWateringCountdown.text = getString(R.string.next_watering_due)
         } else {
             val days = TimeUnit.MILLISECONDS.toDays(timeRemaining)
             val hours = TimeUnit.MILLISECONDS.toHours(timeRemaining) % 24
-            binding.tvWateringCountdown.text = String.format("Next watering in %d days and %d hours", days, hours)
+            binding.tvWateringCountdown.text = getString(R.string.next_watering_countdown_template, days, hours)
         }
     }
 
@@ -132,7 +132,7 @@ class PlantDetailsFragment : Fragment() {
         mainActivity?.showFab()
         mainActivity?.setFabIcon(R.drawable.edit_foreground)
         mainActivity?.setFabClickListener {
-            val bundle = bundleOf("plantId" to plant.id, "title" to "Edit Plant")
+            val bundle = bundleOf("plantId" to plant.id, "title" to getString(R.string.edit_plant))
             findNavController().navigate(R.id.action_nav_plant_details_to_nav_edit_plant, bundle)
         }
     }
@@ -157,12 +157,12 @@ class PlantDetailsFragment : Fragment() {
 
     private fun showDeleteConfirmationDialog() {
         AlertDialog.Builder(requireContext())
-            .setTitle("Delete Plant")
-            .setMessage("Are you sure you want to delete this plant? This action cannot be undone.")
-            .setPositiveButton("Delete") { _, _ ->
+            .setTitle(getString(R.string.delete_plant_dialog_title))
+            .setMessage(getString(R.string.delete_plant_dialog_message))
+            .setPositiveButton(getString(R.string.delete_button)) { _, _ ->
                 deletePlant()
             }
-            .setNegativeButton("Cancel", null)
+            .setNegativeButton(getString(R.string.cancel_button), null)
             .show()
     }
 
@@ -171,7 +171,7 @@ class PlantDetailsFragment : Fragment() {
             val scheduler = NotificationScheduler(requireContext())
             scheduler.cancelNotifications(it.id)
             plantRepository.deletePlant(it.id)
-            Toast.makeText(requireContext(), "Plant deleted", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), getString(R.string.plant_deleted_toast), Toast.LENGTH_SHORT).show()
             findNavController().navigateUp()
         }
     }

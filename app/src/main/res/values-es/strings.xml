@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">PocketBotanist</string>
+    <string name="navigation_drawer_open">Abrir menú de navegación</string>
+    <string name="navigation_drawer_close">Cerrar menú de navegación</string>
+    <string name="nav_header_title">Pocket Botanist</string>
+    <string name="nav_header_subtitle">Tu compañero digital de hierbas</string>
+    <string name="nav_header_desc">Encabezado de navegación</string>
+    <string name="action_settings">Ajustes</string>
+
+    <string name="menu_plant_list">Lista de plantas</string>
+    <string name="menu_notification_center">Centro de Notificaciones</string>
+    <string name="add_plant">Añadir Planta</string>
+    <string name="edit_plant">Editar Planta</string>
+    <string name="plant_details">Detalles de la Planta</string>
+
+    <string name="settings_display_category">Pantalla</string>
+    <string name="settings_dark_theme_title">Activar Modo Oscuro</string>
+    <string name="settings_dark_theme_summary">Cambiar entre temas claros y oscuros</string>
+    <string name="settings_language_title">Idioma</string>
+    <string name="settings_language_summary">Seleccionar el idioma de la aplicación</string>
+    <string name="settings_notifications_category">Notificaciones</string>
+    <string name="settings_water_reminder_title">Activar Recordatorio de Riego</string>
+    <string name="settings_water_reminder_summary">Recibir recordatorios para regar tus plantas</string>
+    <string name="settings_sunlight_reminder_title">Activar Recordatorio de Luz Solar</string>
+    <string name="settings_sunlight_reminder_summary">Recibir recordatorios para revisar tus plantas</string>
+
+    <string name="plant_name_hint">Nombre de la Planta</string>
+    <string name="latin_name_hint">Nombre Latino</string>
+    <string name="description_hint">Descripción</string>
+    <string name="watering_frequency_hint">Frecuencia de Riego (en días)</string>
+    <string name="sunlight_preference_hint">Preferencia de Luz Solar (ej. Directa, Indirecta)</string>
+    <string name="image_url_hint">URL de la Imagen (Opcional)</string>
+    <string name="save_plant_button">Guardar Planta</string>
+    <string name="fill_all_fields_toast">Por favor, rellena todos los campos</string>
+    <string name="plant_updated_toast">¡Planta actualizada con éxito!</string>
+    <string name="plant_saved_toast">¡Planta guardada con éxito!</string>
+
+    <string name="description_label">Descripción</string>
+    <string name="care_instructions_label">Instrucciones de Cuidado</string>
+    <string name="water_every_days_template">Regar cada %d días</string>
+    <string name="prefers_sunlight_template">Prefiere %s</string>
+    <string name="next_watering_due">¡Es hora de regar!</string>
+    <string name="next_watering_countdown_template">Próximo riego en %d días y %d horas</string>
+    <string name="water_plant_button">He Regado Esta Planta</string>
+    <string name="enable_notifications_switch">Activar Notificaciones</string>
+    <string name="watering_logged_toast">¡Riego registrado!</string>
+    <string name="notifications_enabled_toast">Notificaciones activadas</string>
+    <string name="notifications_disabled_toast">Notificaciones desactivadas</string>
+    <string name="delete_plant_dialog_title">Eliminar Planta</string>
+    <string name="delete_plant_dialog_message">¿Estás seguro de que quieres eliminar esta planta? Esta acción no se puede deshacer.</string>
+    <string name="delete_button">Eliminar</string>
+    <string name="cancel_button">Cancelar</string>
+    <string name="plant_deleted_toast">Planta eliminada</string>
+
+    <string name="clear_button">Limpiar</string>
+    <string name="cleared_all_notifications_toast">Todas las notificaciones eliminadas</string>
+    <string name="no_notifications_to_clear_toast">No hay notificaciones que limpiar</string>
+    <string name="no_notifications_yet">Aún no hay notificaciones</string>
+
+    <string name="watering_notification_message">¡Es hora de regar tu %s!</string>
+    <string name="sunlight_notification_message">¡Hora de revisar la luz solar para tu %s!</string>
+</resources>

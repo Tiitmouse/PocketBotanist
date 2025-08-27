@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import hr.algebra.lorena.pocketbotanist.R
 import hr.algebra.lorena.pocketbotanist.databinding.FragmentEditPlantBinding
 import hr.algebra.lorena.pocketbotanist.model.Plant
 import hr.algebra.lorena.pocketbotanist.repository.PlantRepository
@@ -35,7 +36,7 @@ class EditPlantFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         plantId = arguments?.getInt("plantId") ?: -1
-        val title = arguments?.getString("title") ?: "Add Plant"
+        val title = if (plantId != -1) getString(R.string.edit_plant) else getString(R.string.add_plant)
         (activity as AppCompatActivity).supportActionBar?.title = title
 
         if (plantId != -1) {
@@ -68,7 +69,7 @@ class EditPlantFragment : Fragment() {
         val imageUrl = binding.etImageUrl.text.toString().trim()
 
         if (name.isEmpty() || latinName.isEmpty() || description.isEmpty() || wateringFreqText.isEmpty() || sunlight.isEmpty()) {
-            Toast.makeText(context, "Please fill out all fields", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, getString(R.string.fill_all_fields_toast), Toast.LENGTH_SHORT).show()
             return
         }
 
@@ -93,12 +94,12 @@ class EditPlantFragment : Fragment() {
         if (existingPlant != null) {
             plantRepository.updatePlant(plant)
             scheduler.scheduleNotifications(plant)
-            Toast.makeText(context, "Plant updated successfully!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, getString(R.string.plant_updated_toast), Toast.LENGTH_SHORT).show()
         } else {
             val newId = plantRepository.insertPlant(plant)
             val newPlant = plant.copy(id = newId.toInt())
             scheduler.scheduleNotifications(newPlant)
-            Toast.makeText(context, "Plant saved successfully!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, getString(R.string.plant_saved_toast), Toast.LENGTH_SHORT).show()
         }
 
         findNavController().navigateUp()

@@ -1,7 +1,9 @@
 package hr.algebra.lorena.pocketbotanist.ui.settings
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.preference.ListPreference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreferenceCompat
 import hr.algebra.lorena.pocketbotanist.MainActivity
@@ -18,6 +20,15 @@ class SettingsFragment : PreferenceFragmentCompat() {
             AppCompatDelegate.setDefaultNightMode(
                 if (isChecked) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO
             )
+            true
+        }
+
+        val languagePreference = findPreference<ListPreference>("language")
+        languagePreference?.setOnPreferenceChangeListener { _, newValue ->
+            val intent = Intent(requireActivity(), MainActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
+            requireActivity().finish()
             true
         }
     }

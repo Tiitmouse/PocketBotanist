@@ -3,6 +3,7 @@ package hr.algebra.lorena.pocketbotanist.worker
 import android.content.Context
 import androidx.work.Worker
 import androidx.work.WorkerParameters
+import hr.algebra.lorena.pocketbotanist.R
 import hr.algebra.lorena.pocketbotanist.model.Notification
 import hr.algebra.lorena.pocketbotanist.repository.PlantRepository
 import hr.algebra.lorena.pocketbotanist.utils.NotificationHelper
@@ -22,7 +23,7 @@ class WateringReminderWorker(
         val repository = PlantRepository(applicationContext)
         val plant = repository.getPlantById(plantId) ?: return Result.failure()
 
-        val message = "It's time to water your ${plant.name}!"
+        val message = applicationContext.getString(R.string.watering_notification_message, plant.name)
 
         val notificationHelper = NotificationHelper(applicationContext)
         notificationHelper.createNotificationChannel()
@@ -38,7 +39,6 @@ class WateringReminderWorker(
             )
         )
 
-        // Re-schedule the next notification
         val scheduler = NotificationScheduler(applicationContext)
         scheduler.scheduleNotifications(plant)
 

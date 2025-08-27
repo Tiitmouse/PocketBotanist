@@ -48,10 +48,10 @@ class NotificationCenterFragment : Fragment() {
     private fun clearAllNotifications() {
         val rowsDeleted = plantRepository.deleteAllNotifications()
         if (rowsDeleted > 0) {
-            Toast.makeText(context, "Cleared all notifications", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, getString(R.string.cleared_all_notifications_toast), Toast.LENGTH_SHORT).show()
             loadNotifications()
         } else {
-            Toast.makeText(context, "No notifications to clear", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, getString(R.string.no_notifications_to_clear_toast), Toast.LENGTH_SHORT).show()
         }
     }
 
