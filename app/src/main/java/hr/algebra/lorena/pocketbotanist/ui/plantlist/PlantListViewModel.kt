@@ -15,10 +15,10 @@ class PlantListViewModel(application: Application) : AndroidViewModel(applicatio
     val plants: LiveData<List<Plant>> = _plants
 
     fun loadPlants() {
-        if (plantRepository.getAllPlants().isEmpty()) {
+        if (plantRepository.getAllPlantsFromProvider().isEmpty()) {
             populateDatabase()
         }
-        _plants.value = plantRepository.getAllPlants()
+        _plants.value = plantRepository.getAllPlantsFromProvider()
     }
 
     private fun populateDatabase() {

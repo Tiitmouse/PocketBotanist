@@ -2,29 +2,44 @@ package hr.algebra.lorena.pocketbotanist.repository
 
 import android.content.ContentValues
 import android.content.Context
-import hr.algebra.lorena.pocketbotanist.dal.COLUMN_DESCRIPTION
-import hr.algebra.lorena.pocketbotanist.dal.COLUMN_ID
-import hr.algebra.lorena.pocketbotanist.dal.COLUMN_IMAGE_URL
-import hr.algebra.lorena.pocketbotanist.dal.COLUMN_LAST_WATERED_TIMESTAMP
-import hr.algebra.lorena.pocketbotanist.dal.COLUMN_LATIN_NAME
-import hr.algebra.lorena.pocketbotanist.dal.COLUMN_NAME
-import hr.algebra.lorena.pocketbotanist.dal.COLUMN_NOTIFICATIONS_ENABLED
-import hr.algebra.lorena.pocketbotanist.dal.COLUMN_NOTIFICATION_ID
-import hr.algebra.lorena.pocketbotanist.dal.COLUMN_NOTIFICATION_IS_READ
-import hr.algebra.lorena.pocketbotanist.dal.COLUMN_NOTIFICATION_MESSAGE
-import hr.algebra.lorena.pocketbotanist.dal.COLUMN_NOTIFICATION_PLANT_ID
-import hr.algebra.lorena.pocketbotanist.dal.COLUMN_NOTIFICATION_TIMESTAMP
-import hr.algebra.lorena.pocketbotanist.dal.COLUMN_SUNLIGHT_PREFERENCE
-import hr.algebra.lorena.pocketbotanist.dal.COLUMN_WATERING_FREQUENCY
-import hr.algebra.lorena.pocketbotanist.dal.PocketBotanistSqlHelper
-import hr.algebra.lorena.pocketbotanist.dal.TABLE_NOTIFICATIONS
-import hr.algebra.lorena.pocketbotanist.dal.TABLE_PLANTS
+import hr.algebra.lorena.pocketbotanist.dal.*
 import hr.algebra.lorena.pocketbotanist.model.Notification
 import hr.algebra.lorena.pocketbotanist.model.Plant
 
-class PlantRepository(context: Context) {
+class PlantRepository(private val context: Context) {
 
     private val dbHelper = PocketBotanistSqlHelper(context)
+
+    // ContentProvider fake example
+    fun getAllPlantsFromProvider(): List<Plant> {
+        val plants = mutableListOf<Plant>()
+        val cursor = context.contentResolver.query(
+            CONTENT_URI,
+            null,
+            null,
+            null,
+            null
+        )
+
+        cursor?.use {
+            while (it.moveToNext()) {
+                plants.add(
+                    Plant(
+                        id = it.getInt(it.getColumnIndexOrThrow(COLUMN_ID)),
+                        name = it.getString(it.getColumnIndexOrThrow(COLUMN_NAME)),
+                        latinName = it.getString(it.getColumnIndexOrThrow(COLUMN_LATIN_NAME)),
+                        description = it.getString(it.getColumnIndexOrThrow(COLUMN_DESCRIPTION)),
+                        wateringFrequencyDays = it.getInt(it.getColumnIndexOrThrow(COLUMN_WATERING_FREQUENCY)),
+                        sunlightPreference = it.getString(it.getColumnIndexOrThrow(COLUMN_SUNLIGHT_PREFERENCE)),
+                        imageUrl = it.getString(it.getColumnIndexOrThrow(COLUMN_IMAGE_URL)),
+                        notificationsEnabled = it.getInt(it.getColumnIndexOrThrow(COLUMN_NOTIFICATIONS_ENABLED)) == 1,
+                        lastWateredTimestamp = it.getLong(it.getColumnIndexOrThrow(COLUMN_LAST_WATERED_TIMESTAMP))
+                    )
+                )
+            }
+        }
+        return plants
+    }
 
     fun getAllPlants(): List<Plant> {
         val db = dbHelper.readableDatabase
