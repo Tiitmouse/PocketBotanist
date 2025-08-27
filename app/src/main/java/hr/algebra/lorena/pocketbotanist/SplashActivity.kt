@@ -8,6 +8,7 @@ import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.TextView
 import hr.algebra.lorena.pocketbotanist.utils.getOnboardingPrefs
+import hr.algebra.lorena.pocketbotanist.utils.isNetworkAvailable
 import hr.algebra.lorena.pocketbotanist.utils.isOnboardingFinished
 
 class SplashActivity : BaseActivity() {
@@ -17,22 +18,30 @@ class SplashActivity : BaseActivity() {
 
         val splashIcon = findViewById<ImageView>(R.id.iv_splash_icon)
         val appNameText = findViewById<TextView>(R.id.tv_app_name)
-
         val fadeAnimation = AnimationUtils.loadAnimation(this, R.anim.fade)
 
         splashIcon.startAnimation(fadeAnimation)
         appNameText.startAnimation(fadeAnimation)
 
         Handler(Looper.getMainLooper()).postDelayed({
-            val onboardingFinished = getOnboardingPrefs().isOnboardingFinished()
-            val intent = Intent(this, MainActivity::class.java)
-
-            if (onboardingFinished) {
-                intent.putExtra("NAVIGATE_TO", R.id.nav_plant_list)
+            if (!isNetworkAvailable()) {
+                startActivity(Intent(this, NoInternetActivity::class.java))
+                finish()
+            } else {
+                navigateToApp(false)
             }
-
-            startActivity(intent)
-            finish()
         }, 2000)
+    }
+
+    fun navigateToApp(force: Boolean) {
+        val onboardingFinished = getOnboardingPrefs().isOnboardingFinished()
+        val intent = Intent(this, MainActivity::class.java)
+
+        if (onboardingFinished || force) {
+            intent.putExtra("NAVIGATE_TO", R.id.nav_plant_list)
+        }
+
+        startActivity(intent)
+        finish()
     }
 }
