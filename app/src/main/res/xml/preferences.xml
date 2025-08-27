@@ -27,12 +27,6 @@
             app:title="@string/settings_water_reminder_title"
             app:defaultValue="true" />
 
-        <SwitchPreferenceCompat
-            app:key="sunlight_reminder"
-            app:summary="@string/settings_sunlight_reminder_summary"
-            app:title="@string/settings_sunlight_reminder_title"
-            app:defaultValue="true" />
-
     </PreferenceCategory>
 
 </PreferenceScreen>

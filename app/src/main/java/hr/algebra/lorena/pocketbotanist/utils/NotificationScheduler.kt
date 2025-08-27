@@ -7,7 +7,6 @@ import androidx.work.ExistingWorkPolicy
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import hr.algebra.lorena.pocketbotanist.model.Plant
-import hr.algebra.lorena.pocketbotanist.worker.SunlightReminderWorker
 import hr.algebra.lorena.pocketbotanist.worker.WateringReminderWorker
 import java.util.concurrent.TimeUnit
 
@@ -24,7 +23,6 @@ class NotificationScheduler(private val context: Context) {
 
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
         val waterReminderEnabled = sharedPreferences.getBoolean("water_reminder", true)
-        val sunlightReminderEnabled = sharedPreferences.getBoolean("sunlight_reminder", true)
 
         if (!plant.notificationsEnabled) {
             return
@@ -52,20 +50,6 @@ class NotificationScheduler(private val context: Context) {
                     wateringRequest
                 )
             }
-        }
-
-        if (sunlightReminderEnabled) {
-            // FOR TESTING: Schedule for every 15 minutes (the minimum allowed)
-            val sunlightRequest = OneTimeWorkRequestBuilder<SunlightReminderWorker>()
-                .setInitialDelay(MIN_PERIODIC_INTERVAL_MINUTES, TimeUnit.MINUTES)
-                .setInputData(data)
-                .build()
-
-            WorkManager.getInstance(context).enqueueUniqueWork(
-                SUNLIGHT_WORK_TAG_PREFIX + plant.id,
-                ExistingWorkPolicy.REPLACE,
-                sunlightRequest
-            )
         }
     }
 
