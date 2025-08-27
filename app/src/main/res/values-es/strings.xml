@@ -72,4 +72,9 @@
     <string name="onboarding_terms_desc">Al usar esta aplicación, aceptas cuidar muy bien tus plantas. Este es un asunto muy serio.</string>
     <string name="onboarding_next_button">Siguiente</string>
     <string name="onboarding_start_button">Empezar</string>
+
+    <string name="no_internet_title">Sin Conexión a Internet</string>
+    <string name="no_internet_description">Se requiere una conexión a internet para mostrar las imágenes de las plantas. Puede continuar sin imágenes o volver a intentarlo.</string>
+    <string name="no_internet_proceed_button">Continuar sin imágenes</string>
+    <string name="no_internet_retry_button">Intentar de nuevo</string>
 </resources>

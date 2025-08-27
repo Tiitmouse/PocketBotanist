@@ -72,4 +72,9 @@
     <string name="onboarding_terms_desc">Korištenjem ove aplikacije pristajete na to da ćete se izvrsno brinuti o svojim biljkama. Ovo je vrlo ozbiljna stvar.</string>
     <string name="onboarding_next_button">Dalje</string>
     <string name="onboarding_start_button">Krenimo</string>
+
+    <string name="no_internet_title">Nema Internetske Veze</string>
+    <string name="no_internet_description">Internetska veza je potrebna za prikaz slika biljaka. Možete nastaviti bez slika ili pokušati ponovno.</string>
+    <string name="no_internet_proceed_button">Nastavi bez slika</string>
+    <string name="no_internet_retry_button">Pokušaj ponovno</string>
 </resources>

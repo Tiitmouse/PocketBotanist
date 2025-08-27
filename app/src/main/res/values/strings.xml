@@ -71,4 +71,9 @@
     <string name="onboarding_terms_desc">By using this app, you agree to take great care of your plants. This is a very serious matter.</string>
     <string name="onboarding_next_button">Next</string>
     <string name="onboarding_start_button">Let\'s Start</string>
+
+    <string name="no_internet_title">No Internet Connection</string>
+    <string name="no_internet_description">An internet connection is required to display plant images. You can proceed without images or try again.</string>
+    <string name="no_internet_proceed_button">Proceed without images</string>
+    <string name="no_internet_retry_button">Try Again</string>
 </resources>
