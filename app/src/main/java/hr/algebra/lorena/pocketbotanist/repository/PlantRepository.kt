@@ -183,4 +183,9 @@ class PlantRepository(context: Context) {
             arrayOf(plantId.toString())
         )
     }
+
+    fun deleteAllNotifications(): Int {
+        val db = dbHelper.writableDatabase
+        return db.delete(TABLE_NOTIFICATIONS, null, null)
+    }
 }

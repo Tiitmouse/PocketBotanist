@@ -4,12 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import hr.algebra.lorena.pocketbotanist.R
 import hr.algebra.lorena.pocketbotanist.adapter.NotificationAdapter
 import hr.algebra.lorena.pocketbotanist.databinding.FragmentNotificationCenterBinding
+import hr.algebra.lorena.pocketbotanist.model.Notification
 import hr.algebra.lorena.pocketbotanist.repository.PlantRepository
 
 class NotificationCenterFragment : Fragment() {
@@ -38,17 +40,43 @@ class NotificationCenterFragment : Fragment() {
         }
         binding.rvNotifications.adapter = notificationAdapter
 
-        loadNotifications()
+        binding.btnClear.setOnClickListener {
+            clearAllNotifications()
+        }
+    }
+
+    private fun clearAllNotifications() {
+        val rowsDeleted = plantRepository.deleteAllNotifications()
+        if (rowsDeleted > 0) {
+            Toast.makeText(context, "Cleared all notifications", Toast.LENGTH_SHORT).show()
+            loadNotifications()
+        } else {
+            Toast.makeText(context, "No notifications to clear", Toast.LENGTH_SHORT).show()
+        }
     }
 
     override fun onResume() {
         super.onResume()
         plantRepository.markAllNotificationsAsRead()
+        loadNotifications()
     }
 
     private fun loadNotifications() {
         val notifications = plantRepository.getAllNotifications()
         notificationAdapter.updateData(notifications)
+        updateUI(notifications)
+    }
+
+    private fun updateUI(notifications: List<Notification>) {
+        if (notifications.isEmpty()) {
+            binding.tvNoNotifications.visibility = View.VISIBLE
+            binding.rvNotifications.visibility = View.GONE
+            binding.btnClear.visibility = View.GONE
+        } else {
+            binding.tvNoNotifications.visibility = View.GONE
+            binding.rvNotifications.visibility = View.VISIBLE
+            binding.btnClear.visibility = View.VISIBLE
+        }
     }
 
     override fun onDestroyView() {
