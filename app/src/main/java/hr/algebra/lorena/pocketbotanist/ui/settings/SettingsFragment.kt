@@ -1,5 +1,6 @@
 package hr.algebra.lorena.pocketbotanist.ui.settings
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatDelegate
@@ -29,6 +30,21 @@ class SettingsFragment : PreferenceFragmentCompat() {
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)
             requireActivity().finish()
+            true
+        }
+
+        val onboardingPreference = findPreference<SwitchPreferenceCompat>("show_onboarding")
+        onboardingPreference?.setOnPreferenceChangeListener { _, newValue ->
+            val show = newValue as Boolean
+            val sharedPref = requireActivity().getSharedPreferences("onboarding", Context.MODE_PRIVATE)
+            with(sharedPref.edit()) {
+                if (show) {
+                    remove("finished")
+                } else {
+                    putBoolean("finished", true)
+                }
+                apply()
+            }
             true
         }
     }

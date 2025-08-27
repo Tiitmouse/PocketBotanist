@@ -1,5 +1,6 @@
 package hr.algebra.lorena.pocketbotanist.ui.onboarding
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -48,8 +49,17 @@ class OnboardingFragment : Fragment() {
             if (currentItem < adapter.itemCount - 1) {
                 binding.viewPager.currentItem = currentItem + 1
             } else {
+                onOnboardingFinished()
                 findNavController().navigate(R.id.action_onboardingFragment_to_nav_plant_list)
             }
+        }
+    }
+
+    private fun onOnboardingFinished() {
+        val sharedPref = requireActivity().getSharedPreferences("onboarding", Context.MODE_PRIVATE)
+        with(sharedPref.edit()) {
+            putBoolean("finished", true)
+            apply()
         }
     }
 

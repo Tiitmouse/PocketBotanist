@@ -1,6 +1,7 @@
 package hr.algebra.lorena.pocketbotanist
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Rect
 import android.os.Build
@@ -9,10 +10,11 @@ import android.view.View
 import android.view.ViewTreeObserver
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.navigation.NavController
+import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
@@ -28,6 +30,7 @@ class MainActivity : BaseActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
     private lateinit var plantRepository: PlantRepository
+    private lateinit var navController: NavController
 
     private val requestPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) {}
@@ -61,7 +64,7 @@ class MainActivity : BaseActivity() {
 
         val drawerLayout: DrawerLayout = binding.drawerLayout
         val navView: NavigationView = binding.navView
-        val navController = findNavController(R.id.nav_host_fragment_content_main)
+        navController = findNavController(R.id.nav_host_fragment_content_main)
         appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.nav_plant_list, R.id.nav_settings, R.id.nav_notification_center
@@ -71,12 +74,22 @@ class MainActivity : BaseActivity() {
         navView.setupWithNavController(navController)
 
         askForNotificationPermission()
+        handleIntentNavigation(intent)
+    }
+
+    private fun handleIntentNavigation(intent: Intent?) {
+        val navigateToId = intent?.getIntExtra("NAVIGATE_TO", -1) ?: -1
+        if (navigateToId != -1 && navController.currentDestination?.id != navigateToId) {
+            val navOptions = NavOptions.Builder()
+                .setPopUpTo(R.id.onboardingFragment, true)
+                .build()
+            navController.navigate(navigateToId, null, navOptions)
+        }
     }
 
     private fun setupNotificationBadge() {
         val unreadCount = plantRepository.getUnreadNotificationCount()
         val notificationMenuItem = binding.navView.menu.findItem(R.id.nav_notification_center)
-
         val badgeTextView = notificationMenuItem?.actionView?.findViewById<TextView>(R.id.notification_badge_text_view)
 
         badgeTextView?.let {
@@ -88,7 +101,6 @@ class MainActivity : BaseActivity() {
             }
         }
     }
-
 
     private fun askForNotificationPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {

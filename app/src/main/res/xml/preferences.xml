@@ -19,6 +19,16 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory app:title="General">
+
+        <SwitchPreferenceCompat
+            app:key="show_onboarding"
+            app:title="Show Welcome Screen"
+            app:summary="Show the welcome screen the next time you start the app"
+            app:defaultValue="true" />
+
+    </PreferenceCategory>
+
     <PreferenceCategory app:title="@string/settings_notifications_category">
 
         <SwitchPreferenceCompat

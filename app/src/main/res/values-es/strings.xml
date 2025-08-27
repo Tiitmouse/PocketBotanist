@@ -24,6 +24,9 @@
     <string name="settings_water_reminder_summary">Recibir recordatorios para regar tus plantas</string>
     <string name="settings_sunlight_reminder_title">Activar Recordatorio de Luz Solar</string>
     <string name="settings_sunlight_reminder_summary">Recibir recordatorios para revisar tus plantas</string>
+    <string name="settings_general_category">General</string>
+    <string name="settings_show_onboarding_title">Mostrar Pantalla de Bienvenida</string>
+    <string name="settings_show_onboarding_summary">Mostrar la pantalla de bienvenida la próxima vez que inicie la aplicación</string>
 
     <string name="plant_name_hint">Nombre de la Planta</string>
     <string name="latin_name_hint">Nombre Latino</string>

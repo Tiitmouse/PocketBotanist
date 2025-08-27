@@ -24,6 +24,9 @@
     <string name="settings_water_reminder_summary">Primajte podsjetnike za zalijevanje vaših biljaka</string>
     <string name="settings_sunlight_reminder_title">Omogući Podsjetnik za Sunčevu Svjetlost</string>
     <string name="settings_sunlight_reminder_summary">Primajte podsjetnike za provjeru vaših biljaka</string>
+    <string name="settings_general_category">Općenito</string>
+    <string name="settings_show_onboarding_title">Prikaži Ekran Dobrodošlice</string>
+    <string name="settings_show_onboarding_summary">Prikaži uvodni ekran pri sljedećem pokretanju aplikacije</string>
 
     <string name="plant_name_hint">Ime Biljke</string>
     <string name="latin_name_hint">Latinsko Ime</string>
