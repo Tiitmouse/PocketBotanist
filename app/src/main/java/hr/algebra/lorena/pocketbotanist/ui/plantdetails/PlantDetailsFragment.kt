@@ -1,6 +1,7 @@
 package hr.algebra.lorena.pocketbotanist.ui.plantdetails
 
 import android.app.AlertDialog
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -149,10 +150,31 @@ class PlantDetailsFragment : Fragment() {
                         showDeleteConfirmationDialog()
                         true
                     }
+                    R.id.action_share -> {
+                        sharePlantDetails()
+                        true
+                    }
                     else -> false
                 }
             }
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
+    }
+
+    private fun sharePlantDetails() {
+        currentPlant?.let { plant ->
+            val shareText = """
+                Check out this plant: ${plant.name} (${plant.latinName})
+                
+                Description: ${plant.description}
+                Care: Water every ${plant.wateringFrequencyDays} days and provide ${plant.sunlightPreference}.
+            """.trimIndent()
+
+            val intent = Intent(Intent.ACTION_SEND).apply {
+                type = "text/plain"
+                putExtra(Intent.EXTRA_TEXT, shareText)
+            }
+            startActivity(Intent.createChooser(intent, "Share Plant Details"))
+        }
     }
 
     private fun showDeleteConfirmationDialog() {
