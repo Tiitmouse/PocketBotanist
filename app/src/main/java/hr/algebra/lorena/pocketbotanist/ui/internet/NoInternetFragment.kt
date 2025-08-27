@@ -6,8 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import hr.algebra.lorena.pocketbotanist.MainActivity
+import hr.algebra.lorena.pocketbotanist.R
 import hr.algebra.lorena.pocketbotanist.SplashActivity
 import hr.algebra.lorena.pocketbotanist.databinding.FragmentNoInternetBinding
+import hr.algebra.lorena.pocketbotanist.utils.getOnboardingPrefs
+import hr.algebra.lorena.pocketbotanist.utils.isOnboardingFinished
 
 class NoInternetFragment : Fragment() {
 
@@ -26,7 +30,7 @@ class NoInternetFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.btnProceed.setOnClickListener {
-            (activity as? SplashActivity)?.navigateToApp(true)
+            navigateToApp()
         }
 
         binding.btnRetry.setOnClickListener {
@@ -36,6 +40,18 @@ class NoInternetFragment : Fragment() {
                 it.finish()
             }
         }
+    }
+
+    private fun navigateToApp() {
+        val onboardingFinished = requireContext().getOnboardingPrefs().isOnboardingFinished()
+        val intent = Intent(requireContext(), MainActivity::class.java)
+
+        if (onboardingFinished) {
+            intent.putExtra("NAVIGATE_TO", R.id.nav_plant_list)
+        }
+
+        startActivity(intent)
+        activity?.finish()
     }
 
     override fun onDestroyView() {
