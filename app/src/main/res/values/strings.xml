@@ -62,4 +62,13 @@
 
     <string name="watering_notification_message">It\'s time to water your %s!</string>
     <string name="sunlight_notification_message">Time to check the sunlight for your %s!</string>
+
+    <string name="onboarding_welcome_title">Welcome to PocketBotanist</string>
+    <string name="onboarding_welcome_desc">Your digital companion to help you never forget to water your plants again.</string>
+    <string name="onboarding_track_title">Track Your Plants</string>
+    <string name="onboarding_track_desc">Add your plants, set watering schedules, and keep notes on their progress.</string>
+    <string name="onboarding_terms_title">Terms of Use</string>
+    <string name="onboarding_terms_desc">By using this app, you agree to take great care of your plants. This is a very serious matter.</string>
+    <string name="onboarding_next_button">Next</string>
+    <string name="onboarding_start_button">Let\'s Start</string>
 </resources>

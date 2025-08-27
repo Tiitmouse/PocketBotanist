@@ -63,4 +63,13 @@
 
     <string name="watering_notification_message">Vrijeme je da zalijete vašu %s!</string>
     <string name="sunlight_notification_message">Vrijeme je da provjerite sunčevu svjetlost za vašu %s!</string>
+
+    <string name="onboarding_welcome_title">Dobrodošli u PocketBotanist</string>
+    <string name="onboarding_welcome_desc">Vaš digitalni pratitelj koji vam pomaže da više nikada ne zaboravite zaliti svoje biljke.</string>
+    <string name="onboarding_track_title">Pratite Svoje Biljke</string>
+    <string name="onboarding_track_desc">Dodajte svoje biljke, postavite rasporede zalijevanja i vodite bilješke o njihovom napretku.</string>
+    <string name="onboarding_terms_title">Uvjeti Korištenja</string>
+    <string name="onboarding_terms_desc">Korištenjem ove aplikacije pristajete na to da ćete se izvrsno brinuti o svojim biljkama. Ovo je vrlo ozbiljna stvar.</string>
+    <string name="onboarding_next_button">Dalje</string>
+    <string name="onboarding_start_button">Krenimo</string>
 </resources>

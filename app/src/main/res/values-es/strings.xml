@@ -63,4 +63,13 @@
 
     <string name="watering_notification_message">¡Es hora de regar tu %s!</string>
     <string name="sunlight_notification_message">¡Hora de revisar la luz solar para tu %s!</string>
+
+    <string name="onboarding_welcome_title">Bienvenido a PocketBotanist</string>
+    <string name="onboarding_welcome_desc">Tu compañero digital para ayudarte a no olvidar nunca más regar tus plantas.</string>
+    <string name="onboarding_track_title">Rastrea Tus Plantas</string>
+    <string name="onboarding_track_desc">Añade tus plantas, establece horarios de riego y toma notas sobre su progreso.</string>
+    <string name="onboarding_terms_title">Términos de Uso</string>
+    <string name="onboarding_terms_desc">Al usar esta aplicación, aceptas cuidar muy bien tus plantas. Este es un asunto muy serio.</string>
+    <string name="onboarding_next_button">Siguiente</string>
+    <string name="onboarding_start_button">Empezar</string>
 </resources>
