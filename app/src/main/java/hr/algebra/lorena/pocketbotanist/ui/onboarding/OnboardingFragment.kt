@@ -1,6 +1,5 @@
 package hr.algebra.lorena.pocketbotanist.ui.onboarding
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +13,8 @@ import hr.algebra.lorena.pocketbotanist.MainActivity
 import hr.algebra.lorena.pocketbotanist.R
 import hr.algebra.lorena.pocketbotanist.adapter.OnboardingAdapter
 import hr.algebra.lorena.pocketbotanist.databinding.FragmentOnboardingBinding
+import hr.algebra.lorena.pocketbotanist.utils.getOnboardingPrefs
+import hr.algebra.lorena.pocketbotanist.utils.setOnboardingFinished
 
 class OnboardingFragment : Fragment() {
 
@@ -48,7 +49,6 @@ class OnboardingFragment : Fragment() {
 
         val adapter = OnboardingAdapter(this, pages)
         binding.viewPager.adapter = adapter
-
         binding.viewPager.setPageTransformer(DepthPageTransformer())
 
         binding.viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
@@ -77,11 +77,7 @@ class OnboardingFragment : Fragment() {
     }
 
     private fun onOnboardingFinished() {
-        val sharedPref = requireActivity().getSharedPreferences("onboarding", Context.MODE_PRIVATE)
-        with(sharedPref.edit()) {
-            putBoolean("finished", true)
-            apply()
-        }
+        requireActivity().getOnboardingPrefs().edit().setOnboardingFinished(true)
     }
 
     override fun onResume() {

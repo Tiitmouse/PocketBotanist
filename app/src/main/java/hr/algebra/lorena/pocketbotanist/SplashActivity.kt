@@ -1,6 +1,5 @@
 package hr.algebra.lorena.pocketbotanist
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
@@ -8,6 +7,8 @@ import android.os.Looper
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.TextView
+import hr.algebra.lorena.pocketbotanist.utils.getOnboardingPrefs
+import hr.algebra.lorena.pocketbotanist.utils.isOnboardingFinished
 
 class SplashActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,14 +24,10 @@ class SplashActivity : BaseActivity() {
         appNameText.startAnimation(fadeAnimation)
 
         Handler(Looper.getMainLooper()).postDelayed({
-
-            val sharedPref = getSharedPreferences("onboarding", Context.MODE_PRIVATE)
-            val onboardingFinished = sharedPref.getBoolean("finished", false)
-
+            val onboardingFinished = getOnboardingPrefs().isOnboardingFinished()
             val intent = Intent(this, MainActivity::class.java)
 
-            if (!onboardingFinished) {
-            } else {
+            if (onboardingFinished) {
                 intent.putExtra("NAVIGATE_TO", R.id.nav_plant_list)
             }
 
