@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -30,16 +31,36 @@ class OnboardingFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val adapter = OnboardingAdapter(this)
+        val pages = listOf(
+            OnboardingPageFragment.newInstance(
+                getString(R.string.onboarding_welcome_title),
+                getString(R.string.onboarding_welcome_desc)
+            ),
+            OnboardingPageFragment.newInstance(
+                getString(R.string.onboarding_track_title),
+                getString(R.string.onboarding_track_desc)
+            ),
+            OnboardingPageFragment.newInstance(
+                getString(R.string.onboarding_terms_title),
+                getString(R.string.onboarding_terms_desc)
+            )
+        )
+
+        val adapter = OnboardingAdapter(this, pages)
         binding.viewPager.adapter = adapter
+
+        binding.viewPager.setPageTransformer(DepthPageTransformer())
 
         binding.viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
                 if (position == adapter.itemCount - 1) {
-                    binding.btnNext.text = "Let's Start"
+                    binding.btnNext.text = getString(R.string.onboarding_start_button)
+                    val pulseAnimation = AnimationUtils.loadAnimation(context, R.anim.pulse)
+                    binding.btnNext.startAnimation(pulseAnimation)
                 } else {
-                    binding.btnNext.text = "Next"
+                    binding.btnNext.text = getString(R.string.onboarding_next_button)
+                    binding.btnNext.clearAnimation()
                 }
             }
         })
