@@ -27,6 +27,11 @@
     <string name="settings_general_category">Općenito</string>
     <string name="settings_show_onboarding_title">Prikaži Ekran Dobrodošlice</string>
     <string name="settings_show_onboarding_summary">Prikaži uvodni ekran pri sljedećem pokretanju aplikacije</string>
+    <string name="settings_reset_category">Reset Aplikacije</string>
+    <string name="settings_refresh_data_title">Osvježi Podatke</string>
+    <string name="settings_refresh_data_summary">Briše sve lokalne biljke i preuzima najnovije podatke s poslužitelja.</string>
+    <string name="refresh_dialog_title">Potvrdi Osvježavanje</string>
+    <string name="refresh_dialog_message">Ovo će obrisati sve vaše trenutne biljke i zamijeniti ih podacima s poslužitelja. Ova se radnja ne može poništiti. Jeste li sigurni?</string>
 
     <string name="plant_name_hint">Ime Biljke</string>
     <string name="latin_name_hint">Latinsko Ime</string>

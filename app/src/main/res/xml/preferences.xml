@@ -39,4 +39,11 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory app:title="App Reset">
+        <Preference
+            app:key="refresh_data"
+            app:title="Refresh Data"
+            app:summary="Deletes all local plants and downloads the latest data from the server." />
+    </PreferenceCategory>
+
 </PreferenceScreen>

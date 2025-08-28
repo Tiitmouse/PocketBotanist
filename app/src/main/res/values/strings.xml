@@ -26,6 +26,11 @@
     <string name="settings_general_category">General</string>
     <string name="settings_show_onboarding_title">Show Welcome Screen</string>
     <string name="settings_show_onboarding_summary">Show the welcome screen the next time you start the app</string>
+    <string name="settings_reset_category">App Reset</string>
+    <string name="settings_refresh_data_title">Refresh Data</string>
+    <string name="settings_refresh_data_summary">Deletes all local plants and downloads the latest data from the server.</string>
+    <string name="refresh_dialog_title">Confirm Refresh</string>
+    <string name="refresh_dialog_message">This will delete all your current plants and replace them with data from the server. This action cannot be undone. Are you sure?</string>
 
     <string name="plant_name_hint">Plant Name</string>
     <string name="latin_name_hint">Latin Name</string>

@@ -5,6 +5,9 @@ import android.content.Context
 import hr.algebra.lorena.pocketbotanist.dal.*
 import hr.algebra.lorena.pocketbotanist.model.Notification
 import hr.algebra.lorena.pocketbotanist.model.Plant
+import hr.algebra.lorena.pocketbotanist.api.RetrofitInstance
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class PlantRepository(private val context: Context) {
 
@@ -202,5 +205,26 @@ class PlantRepository(private val context: Context) {
     fun deleteAllNotifications(): Int {
         val db = dbHelper.writableDatabase
         return db.delete(TABLE_NOTIFICATIONS, null, null)
+    }
+
+    suspend fun refreshPlantsFromApi() {
+        withContext(Dispatchers.IO) {
+            val remotePlants = RetrofitInstance.api.getPlants()
+
+            dbHelper.writableDatabase.delete(TABLE_PLANTS, null, null)
+
+            remotePlants.forEach { apiPlant ->
+                val plant = Plant(
+                    id = 0,
+                    name = apiPlant.name,
+                    latinName = apiPlant.latinName,
+                    description = apiPlant.description,
+                    wateringFrequencyDays = apiPlant.wateringFrequencyDays,
+                    sunlightPreference = apiPlant.sunlightPreference,
+                    imageUrl = apiPlant.imageUrl
+                )
+                insertPlant(plant)
+            }
+        }
     }
 }

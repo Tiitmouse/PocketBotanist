@@ -27,6 +27,11 @@
     <string name="settings_general_category">General</string>
     <string name="settings_show_onboarding_title">Mostrar Pantalla de Bienvenida</string>
     <string name="settings_show_onboarding_summary">Mostrar la pantalla de bienvenida la próxima vez que inicie la aplicación</string>
+    <string name="settings_reset_category">Restablecer Aplicación</string>
+    <string name="settings_refresh_data_title">Actualizar Datos</string>
+    <string name="settings_refresh_data_summary">Elimina todas las plantas locales y descarga los últimos datos del servidor.</string>
+    <string name="refresh_dialog_title">Confirmar Actualización</string>
+    <string name="refresh_dialog_message">Esto eliminará todas sus plantas actuales y las reemplazará con datos del servidor. Esta acción no se puede deshacer. ¿Estás seguro?</string>
 
     <string name="plant_name_hint">Nombre de la Planta</string>
     <string name="latin_name_hint">Nombre Latino</string>
