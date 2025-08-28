@@ -5,6 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import hr.algebra.lorena.pocketbotanist.R
 import hr.algebra.lorena.pocketbotanist.repository.PlantRepository
 import kotlinx.coroutines.launch
 
@@ -18,9 +19,10 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
         viewModelScope.launch {
             try {
                 repository.refreshPlantsFromApi()
-                _refreshStatus.postValue("Data refreshed successfully!")
+                _refreshStatus.postValue(getApplication<Application>().getString(R.string.refresh_success))
             } catch (e: Exception) {
-                _refreshStatus.postValue("Error refreshing data: ${e.message}")
+                val errorMessage = getApplication<Application>().getString(R.string.refresh_error, e.message)
+                _refreshStatus.postValue(errorMessage)
             }
         }
     }

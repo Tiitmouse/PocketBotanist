@@ -81,4 +81,8 @@
     <string name="no_internet_description">An internet connection is required to display plant images. You can proceed without images or try again.</string>
     <string name="no_internet_proceed_button">Proceed without images</string>
     <string name="no_internet_retry_button">Try Again</string>
+
+    <string name="refresh_success">Data refreshed successfully!</string>
+    <string name="refresh_error">Error refreshing data: %1$s</string>
+
 </resources>
