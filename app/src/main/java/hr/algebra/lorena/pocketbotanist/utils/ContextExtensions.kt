@@ -19,7 +19,6 @@ fun SharedPreferences.Editor.setOnboardingFinished(finished: Boolean) {
 fun SharedPreferences.isOnboardingFinished(): Boolean =
     getBoolean(FINISHED_KEY, false)
 
-// DODAJTE OVU FUNKCIJU
 fun Context.isNetworkAvailable(): Boolean {
     val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
     val network = connectivityManager.activeNetwork ?: return false
